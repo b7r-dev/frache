@@ -200,9 +200,13 @@ describe('Utils', () => {
     });
 
     it('should reject keys with invalid characters', () => {
-      expect(() => validateKey('key\nwith\nnewlines')).toThrow('Cache key contains invalid characters');
+      expect(() => validateKey('key\nwith\nnewlines')).toThrow(
+        'Cache key contains invalid characters'
+      );
       expect(() => validateKey('key\twith\ttabs')).toThrow('Cache key contains invalid characters');
-      expect(() => validateKey('key\rwith\rcarriage')).toThrow('Cache key contains invalid characters');
+      expect(() => validateKey('key\rwith\rcarriage')).toThrow(
+        'Cache key contains invalid characters'
+      );
       expect(() => validateKey('key\0with\0null')).toThrow('Cache key contains invalid characters');
     });
   });
@@ -226,7 +230,8 @@ describe('Utils', () => {
     });
 
     it('should retry on failure and eventually succeed', async () => {
-      const fn = jest.fn()
+      const fn = jest
+        .fn()
         .mockRejectedValueOnce(new Error('fail 1'))
         .mockRejectedValueOnce(new Error('fail 2'))
         .mockResolvedValue('success');
@@ -246,7 +251,8 @@ describe('Utils', () => {
     });
 
     it('should use exponential backoff', async () => {
-      const fn = jest.fn()
+      const fn = jest
+        .fn()
         .mockRejectedValueOnce(new Error('fail 1'))
         .mockRejectedValueOnce(new Error('fail 2'))
         .mockResolvedValue('success');

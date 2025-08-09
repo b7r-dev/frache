@@ -35,11 +35,11 @@ interface DashboardData {
  * Creates a dashboard renderer function for a specific cache instance
  */
 export function createFracheDashboard(cache: AdvancedCache) {
-  return async (req: Request, res: Response): Promise<void> => {
+  return (req: Request, res: Response): void => {
     try {
       // Get cache statistics
       const stats = cache.getStats();
-      
+
       // Get warmup tasks (mock data for now since we don't expose this from the cache)
       const warmupTasks: WarmupTask[] = [
         {
@@ -67,7 +67,7 @@ export function createFracheDashboard(cache: AdvancedCache) {
         },
       ];
 
-      // Get recent cache keys (mock data - in a real implementation, 
+      // Get recent cache keys (mock data - in a real implementation,
       // you'd want to track this in the cache)
       const recentKeys = [
         'widget:1:full',
@@ -109,9 +109,9 @@ export function createFracheDashboard(cache: AdvancedCache) {
       res.send(`<!DOCTYPE html>${html}`);
     } catch (error) {
       console.error('Error rendering Frache dashboard:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Failed to render dashboard',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
       });
     }
   };
@@ -120,10 +120,10 @@ export function createFracheDashboard(cache: AdvancedCache) {
 /**
  * Default dashboard renderer using the singleton cache instance
  */
-export function renderFracheDashboard(req: Request, res: Response): Promise<void> {
+export function renderFracheDashboard(req: Request, res: Response): void {
   const cache = AdvancedCache.getInstance();
   const renderer = createFracheDashboard(cache);
-  return renderer(req, res);
+  renderer(req, res);
 }
 
 // Export the dashboard component for custom usage

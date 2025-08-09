@@ -42,7 +42,7 @@ describe('Cache', () => {
   afterEach(async () => {
     try {
       await cache.destroy();
-    } catch (error) {
+    } catch {
       // Ignore cleanup errors
     }
     Cache.resetInstance();
@@ -71,12 +71,7 @@ describe('Cache', () => {
       const result = await cache.set('test-key', 'test-value');
 
       expect(result).toBe(true);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:cache:test-key',
-        'test-value',
-        'EX',
-        3600
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:cache:test-key', 'test-value', 'EX', 3600);
     });
 
     it('should set a complex object value', async () => {
@@ -100,12 +95,7 @@ describe('Cache', () => {
       const result = await cache.set('temp-key', 'temp-value', { ttl: 300 });
 
       expect(result).toBe(true);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:cache:temp-key',
-        'temp-value',
-        'EX',
-        300
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:cache:temp-key', 'temp-value', 'EX', 300);
     });
 
     it('should handle custom namespace', async () => {
@@ -114,12 +104,7 @@ describe('Cache', () => {
       const result = await cache.set('key', 'value', { namespace: 'custom' });
 
       expect(result).toBe(true);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:custom:key',
-        'value',
-        'EX',
-        3600
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:custom:key', 'value', 'EX', 3600);
     });
 
     it('should handle NX option', async () => {
@@ -128,13 +113,7 @@ describe('Cache', () => {
       const result = await cache.set('key', 'value', { nx: true });
 
       expect(result).toBe(true);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:cache:key',
-        'value',
-        'EX',
-        3600,
-        'NX'
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:cache:key', 'value', 'EX', 3600, 'NX');
     });
 
     it('should handle XX option', async () => {
@@ -143,13 +122,7 @@ describe('Cache', () => {
       const result = await cache.set('key', 'value', { xx: true });
 
       expect(result).toBe(true);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:cache:key',
-        'value',
-        'EX',
-        3600,
-        'XX'
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:cache:key', 'value', 'EX', 3600, 'XX');
     });
 
     it('should return false when Redis returns null', async () => {
@@ -168,13 +141,10 @@ describe('Cache', () => {
       const result = await cache.set('key', 'value', { tags: ['tag1', 'tag2'] });
 
       expect(result).toBe(true);
-      expect(mockRedis.hset).toHaveBeenCalledWith(
-        'frache:cache:key:meta',
-        {
-          compressed: false,
-          tags: ['tag1', 'tag2'],
-        }
-      );
+      expect(mockRedis.hset).toHaveBeenCalledWith('frache:cache:key:meta', {
+        compressed: false,
+        tags: ['tag1', 'tag2'],
+      });
       expect(mockRedis.expire).toHaveBeenCalledWith('frache:cache:key:meta', 3600);
     });
 
@@ -264,10 +234,7 @@ describe('Cache', () => {
       const result = await cache.del('key', { namespace: 'custom' });
 
       expect(result).toBe(1);
-      expect(mockRedis.del).toHaveBeenCalledWith(
-        'frache:custom:key',
-        'frache:custom:key:meta'
-      );
+      expect(mockRedis.del).toHaveBeenCalledWith('frache:custom:key', 'frache:custom:key:meta');
     });
 
     it('should delete by pattern', async () => {
@@ -308,13 +275,7 @@ describe('Cache', () => {
       const result = await cache.clear();
 
       expect(result).toBe(4);
-      expect(mockRedis.scan).toHaveBeenCalledWith(
-        '0',
-        'MATCH',
-        'frache:cache:*',
-        'COUNT',
-        100
-      );
+      expect(mockRedis.scan).toHaveBeenCalledWith('0', 'MATCH', 'frache:cache:*', 'COUNT', 100);
     });
 
     it('should clear keys in custom namespace', async () => {
@@ -326,13 +287,7 @@ describe('Cache', () => {
       const result = await cache.clear({ namespace: 'custom' });
 
       expect(result).toBe(2);
-      expect(mockRedis.scan).toHaveBeenCalledWith(
-        '0',
-        'MATCH',
-        'frache:custom:*',
-        'COUNT',
-        100
-      );
+      expect(mockRedis.scan).toHaveBeenCalledWith('0', 'MATCH', 'frache:custom:*', 'COUNT', 100);
     });
 
     it('should clear keys by pattern', async () => {

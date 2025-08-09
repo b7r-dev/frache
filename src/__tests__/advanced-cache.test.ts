@@ -53,7 +53,7 @@ describe('AdvancedCache', () => {
   afterEach(async () => {
     try {
       await cache.destroy();
-    } catch (error) {
+    } catch {
       // Ignore cleanup errors
     }
     AdvancedCache.resetInstance();
@@ -83,12 +83,7 @@ describe('AdvancedCache', () => {
 
       expect(result).toBe('new-value');
       expect(factory).toHaveBeenCalledTimes(1);
-      expect(mockRedis.set).toHaveBeenCalledWith(
-        'frache:cache:test-key',
-        'new-value',
-        'EX',
-        3600
-      );
+      expect(mockRedis.set).toHaveBeenCalledWith('frache:cache:test-key', 'new-value', 'EX', 3600);
     });
   });
 
@@ -105,20 +100,8 @@ describe('AdvancedCache', () => {
 
       expect(results).toEqual([true, true]);
       expect(mockRedis.set).toHaveBeenCalledTimes(2);
-      expect(mockRedis.set).toHaveBeenNthCalledWith(
-        1,
-        'frache:cache:key1',
-        'value1',
-        'EX',
-        3600
-      );
-      expect(mockRedis.set).toHaveBeenNthCalledWith(
-        2,
-        'frache:cache:key2',
-        'value2',
-        'EX',
-        1800
-      );
+      expect(mockRedis.set).toHaveBeenNthCalledWith(1, 'frache:cache:key1', 'value1', 'EX', 3600);
+      expect(mockRedis.set).toHaveBeenNthCalledWith(2, 'frache:cache:key2', 'value2', 'EX', 1800);
     });
   });
 

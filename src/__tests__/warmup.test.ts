@@ -13,7 +13,7 @@ describe('Cache Warmup Tasks', () => {
   beforeEach(() => {
     // Reset cache instance before each test
     Cache.resetInstance();
-    
+
     // Create a mock Redis instance
     mockRedis = {
       set: jest.fn(),
@@ -29,21 +29,21 @@ describe('Cache Warmup Tasks', () => {
     } as any;
 
     MockedRedis.mockImplementation(() => mockRedis);
-    
+
     const config: CacheConfig = {
       redis: mockRedis,
       defaultTtl: 3600,
       enableWarmup: true,
       warmupInterval: 100, // Short interval for testing
     };
-    
+
     cache = Cache.getInstance(config);
   });
 
   afterEach(async () => {
     try {
       await cache.destroy();
-    } catch (error) {
+    } catch {
       // Ignore cleanup errors
     }
     Cache.resetInstance();
@@ -271,9 +271,9 @@ describe('Cache Warmup Tasks', () => {
     });
 
     it('should handle task timeout', (done) => {
-      const executeFn = jest.fn().mockImplementation(() => 
-        new Promise(resolve => setTimeout(resolve, 200))
-      );
+      const executeFn = jest
+        .fn()
+        .mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 200)));
       const task: WarmupTask = {
         id: 'test-task',
         name: 'Test Task',

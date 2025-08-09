@@ -8,23 +8,19 @@ const gunzipAsync = promisify(gunzip);
 /**
  * Generate a cache key with namespace and optional hashing
  */
-export function generateCacheKey(
-  key: string,
-  namespace?: string,
-  keyPrefix?: string
-): string {
+export function generateCacheKey(key: string, namespace?: string, keyPrefix?: string): string {
   const parts: string[] = [];
-  
+
   if (keyPrefix) {
     parts.push(keyPrefix);
   }
-  
+
   if (namespace) {
     parts.push(namespace);
   }
-  
+
   parts.push(key);
-  
+
   return parts.join(':');
 }
 
@@ -42,7 +38,7 @@ export function serialize(value: any): string {
   if (typeof value === 'string') {
     return value;
   }
-  
+
   try {
     return JSON.stringify(value);
   } catch (error) {
@@ -101,17 +97,17 @@ export function generateScanPattern(
   keyPrefix?: string
 ): string {
   const parts: string[] = [];
-  
+
   if (keyPrefix) {
     parts.push(keyPrefix);
   }
-  
+
   if (namespace) {
     parts.push(namespace);
   }
-  
+
   parts.push(pattern);
-  
+
   return parts.join(':');
 }
 
@@ -122,11 +118,11 @@ export function parseTtl(ttl?: number | string): number | undefined {
   if (ttl === undefined || ttl === null) {
     return undefined;
   }
-  
+
   if (typeof ttl === 'number') {
     return ttl;
   }
-  
+
   if (typeof ttl === 'string') {
     const parsed = parseInt(ttl, 10);
     if (isNaN(parsed)) {
@@ -134,7 +130,7 @@ export function parseTtl(ttl?: number | string): number | undefined {
     }
     return parsed;
   }
-  
+
   throw new Error(`Invalid TTL type: ${typeof ttl}`);
 }
 
@@ -145,11 +141,11 @@ export function validateKey(key: string): void {
   if (!key || typeof key !== 'string') {
     throw new Error('Cache key must be a non-empty string');
   }
-  
+
   if (key.length > 250) {
     throw new Error('Cache key is too long (max 250 characters)');
   }
-  
+
   // Check for invalid characters
   if (/[\r\n\t\0]/.test(key)) {
     throw new Error('Cache key contains invalid characters');
@@ -160,33 +156,29 @@ export function validateKey(key: string): void {
  * Create a delay promise
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * Retry a function with exponential backoff
  */
-export async function retry<T>(
-  fn: () => Promise<T>,
-  attempts = 3,
-  baseDelay = 1000
-): Promise<T> {
+export async function retry<T>(fn: () => Promise<T>, attempts = 3, baseDelay = 1000): Promise<T> {
   let lastError: Error;
-  
+
   for (let i = 0; i < attempts; i++) {
     try {
       return await fn();
     } catch (error) {
       lastError = error as Error;
-      
+
       if (i === attempts - 1) {
         break;
       }
-      
+
       const delayMs = baseDelay * Math.pow(2, i);
       await delay(delayMs);
     }
   }
-  
+
   throw lastError!;
 }
