@@ -279,9 +279,9 @@ MIT © [Your Name](LICENSE)
 ## 🔗 Links
 
 - [Documentation](https://frache.dev)
-- [GitHub](https://github.com/yourusername/frache)
+- [GitHub](https://github.com/b7r-dev/frache)
 - [npm](https://www.npmjs.com/package/frache)
-- [Issues](https://github.com/yourusername/frache/issues)
+- [Issues](https://github.com/b7r-dev/frache/issues)
 
 ---
 

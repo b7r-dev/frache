@@ -1,6 +1,6 @@
 {
   "name": "frache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Advanced and intelligent caching for Node.js using ioredis and queueing",
   "main": "dist/index.js",
@@ -50,17 +50,17 @@
   ],
   "author": {
     "name": "Frache Contributors",
-    "url": "https://github.com/yourusername/frache/graphs/contributors"
+    "url": "https://github.com/b7r-dev/frache/graphs/contributors"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/frache.git"
+    "url": "https://github.com/b7r-dev/frache.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/frache/issues"
+    "url": "https://github.com/b7r-dev/frache/issues"
   },
-  "homepage": "https://github.com/yourusername/frache#readme",
+  "homepage": "https://github.com/b7r-dev/frache#readme",
   "files": [
     "dist",
     "README.md",

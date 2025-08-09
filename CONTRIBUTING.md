@@ -15,7 +15,7 @@ Thank you for your interest in contributing to Frache! We welcome contributions 
 
 1. **Fork and clone the repository**
    ```bash
-   git clone https://github.com/yourusername/frache.git
+   git clone https://github.com/b7r-dev/frache.git
    cd frache
    ```
 
@@ -207,10 +207,10 @@ describe('Cache', () => {
       // Arrange
       const key = 'test-key';
       const value = 'test-value';
-      
+
       // Act
       const result = await cache.set(key, value);
-      
+
       // Assert
       expect(result).toBe(true);
     });
