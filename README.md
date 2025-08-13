@@ -1,9 +1,8 @@
-<img width="256" height="256" alt="image" src="https://github.com/user-attachments/assets/c71f1e5b-b3e7-484f-bd27-a26ab14f8923" />
-
 # Frache
 
 *Advanced and intelligent caching for Node.js using ioredis and queueing.*
 
+<img width="256" height="256" alt="frache_logo_sm" src="https://github.com/user-attachments/assets/b1892761-adbd-4ce8-98be-571340d86eb1" />
 
 Frache is a powerful, feature-rich caching library that provides intelligent caching strategies, warmup tasks, and advanced Redis operations for Node.js applications. Built with TypeScript and designed for production use.
 
